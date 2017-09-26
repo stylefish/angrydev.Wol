@@ -20,7 +20,9 @@ namespace angrydev.Wol
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"error: {e.Message}");
+                Console.ResetColor();
             }
         }
 
