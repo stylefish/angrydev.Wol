@@ -10,6 +10,29 @@ namespace angrydev.Wol
 {
     public class WakeOnLanClient : UdpClient
     {
+        public static void WakeUp(string macAddress)
+        {
+            using (var udpClient = new WakeOnLanClient())
+            {
+                udpClient.SendWakeUp(macAddress);
+            }
+        }
+
+        public void SendWakeUp(string macAddress)
+        {
+            var mac = ParseMac(macAddress);
+            SendWakeUp(mac);
+        }
+
+        public void SendWakeUp(byte[] macAddress)
+        {
+            Connect(IPAddress.Broadcast, 40000);
+            SetSocketOptions();
+
+            var packet = BuildPacket(macAddress);
+            Send(packet, packet.Length);
+        }
+
         private void SetSocketOptions()
         {
             if (!Active) return;
@@ -41,30 +64,7 @@ namespace angrydev.Wol
                     Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, IPAddress.HostToNetworkOrder(ip6Props.Index));
             }
         }
-
-        public static void WakeUp(string macAddress)
-        {
-            using (var udpClient = new WakeOnLanClient())
-            {
-                udpClient.SendWakeUp(macAddress);
-            }
-        }
-
-        public void SendWakeUp(string macAddress)
-        {
-            var mac = ParseMac(macAddress);
-            SendWakeUp(mac);
-        }
-
-        public void SendWakeUp(byte[] macAddress)
-        {
-            Connect(IPAddress.Broadcast, 40000);
-            SetSocketOptions();
-
-            var packet = BuildPacket(macAddress);
-            Send(packet, packet.Length);
-        }
-
+        
         private static byte[] BuildPacket(byte[] mac)
         {
             // WOL packet contains a 6-bytes trailer and 16 times a 6-bytes sequence containing the MAC address.
@@ -94,6 +94,6 @@ namespace angrydev.Wol
                 byteIndex += 2;
             }
             return array;
-        }
+        }        
     }
 }
