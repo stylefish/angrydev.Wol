@@ -1,5 +1,5 @@
 # angrydev.Wol
-a simple windows .net Wake On Lan (WOL) commandline tool and UpdClient written in c#
+a simple .net core Wake On Lan (WOL) commandline tool and UpdClient written in c#
 
 
 usage: wol <mac address>
