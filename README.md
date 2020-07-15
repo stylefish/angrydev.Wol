@@ -1,4 +1,7 @@
 # angrydev.Wol
+
+![.NET Core](https://github.com/stylefish/angrydev.Wol/workflows/.NET%20Core/badge.svg)
+
 a simple .net core Wake On Lan (WOL) commandline tool and UdpClient written in c#
 
 
